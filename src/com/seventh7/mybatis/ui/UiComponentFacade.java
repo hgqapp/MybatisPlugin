@@ -99,7 +99,9 @@ public final class UiComponentFacade {
                                    @NotNull Collection<T> objs,
                                    @NotNull Function<T, String> fun) {
     Collection<String> info = Collections2.transform(objs, fun);
-    PopupChooserBuilder builder = createListPopupBuilder(title, listener, info.toArray(new String[info.size()]));
+
+
+    PopupChooserBuilder builder = createListPopupBuilder(title, listener, info.toArray(new Object[0]));
     JBPopup popup = builder.createPopup();
     setPositionForShown(popup);
     return popup;
