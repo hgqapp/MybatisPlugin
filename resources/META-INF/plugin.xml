@@ -1,0 +1,86 @@
+<idea-plugin>
+    <id>com.houguangqiang.mybatis</id>
+    <name>MybatisHelper</name>
+    <version>1.0</version>
+    <vendor email="309259716@qq.com" url="">MybatisHelper</vendor>
+
+    <description><![CDATA[
+        暂无
+    ]]></description>
+
+    <change-notes><![CDATA[
+        暂无
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="142.4465"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+    <depends optional="false">com.intellij.spring</depends>
+    <depends optional="false">com.intellij.database</depends>
+    <depends optional="false">com.intellij.properties</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <dom.fileDescription implementation="com.seventh7.mybatis.dom.description.MapperDescription"/>
+        <dom.fileDescription implementation="com.seventh7.mybatis.dom.description.ConfigurationDescription"/>
+        <definitionsSearch implementation="com.seventh7.mybatis.definitionsearch.MapperDefinitionSearch"/>
+        <projectService serviceImplementation="com.seventh7.mybatis.service.JavaService"/>
+        <projectService serviceImplementation="com.seventh7.mybatis.service.AnnotationService"/>
+        <projectService serviceImplementation="com.seventh7.mybatis.service.EditorService"/>
+        <projectService serviceImplementation="com.seventh7.mybatis.alias.AliasFacade"/>
+        <projectService serviceImplementation="com.seventh7.mybatis.locator.MapperLocator"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.seventh7.mybatis.provider.MapperLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="XML"
+                                        implementationClass="com.seventh7.mybatis.provider.StatementLineMarkerProvider"/>
+        <applicationConfigurable instance="com.seventh7.mybatis.setting.MybatisConfigurable"/>
+        <applicationService serviceInterface="com.seventh7.mybatis.setting.MybatisSetting"
+                            serviceImplementation="com.seventh7.mybatis.setting.MybatisSetting"/>
+        <completion.contributor language="XML"
+                                implementationClass="com.seventh7.mybatis.contributor.TestParamContributor"/>
+        <completion.contributor language="SQL"
+                                implementationClass="com.seventh7.mybatis.contributor.SqlParamCompletionContributor"
+                                order="first"/>
+        <fileTemplateGroup implementation="com.seventh7.mybatis.template.MybatisFileTemplateDescriptorFactory"/>
+        <typedHandler implementation="com.seventh7.mybatis.action.MybatisTypedHandler" id="mybatis" order="first"/>
+        <defaultLiveTemplatesProvider implementation="com.seventh7.mybatis.template.SqlLiveTemplateProvider"/>
+        <refactoring.elementListenerProvider
+                implementation="com.seventh7.mybatis.refactoring.MapperRefactoringProvider"/>
+        <localInspection language="JAVA" shortName="MybatisMapperMethodInspection"
+                         displayName="Mapper method inspection"
+                         groupName="Mybatis" enabledByDefault="true" level="ERROR"
+                         implementationClass="com.seventh7.mybatis.inspection.MapperMethodInspection"/>
+        <localInspection language="JAVA" shortName="MybatisMapperInXmlInspection" displayName="Mapper in xml inspection"
+                         groupName="Mybatis" enabledByDefault="true" level="ERROR"
+                         implementationClass="com.seventh7.mybatis.inspection.MapperInXmlInspection"/>
+        <localInspection language="XML" shortName="MybatisMapperXmlInspection" enabledByDefault="true" level="ERROR"
+                         displayName="Mapper xml inspection"
+                         groupName="Mybatis"
+                         implementationClass="com.seventh7.mybatis.inspection.MapperXmlInspection"/>
+        <intentionAction>
+            <className>com.seventh7.mybatis.intention.GenerateParamAnnotationIntention</className>
+        </intentionAction>
+        <intentionAction order="first">
+            <className>com.seventh7.mybatis.intention.GenerateMapperIntention</className>
+        </intentionAction>
+        <intentionAction>
+            <className>com.seventh7.mybatis.intention.AliasSwitchIntentionAction</className>
+        </intentionAction>
+        <multiHostInjector implementation="com.seventh7.mybatis.xml.SqlLanguageInjector"/>
+        <spring.customModuleComponentsDiscoverer implementation="com.seventh7.mybatis.spring.model.MybatisBeanProvider"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="com.seventh7.mybatis.action.hack" class="com.seventh7.mybatis.action.HackAction" text="HackerForDev"
+                description="Hacker action for development">
+            <add-to-group group-id="MainToolBar" anchor="first"/>
+        </action>
+    </actions>
+
+</idea-plugin>
