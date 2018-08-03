@@ -11,8 +11,8 @@ import com.seventh7.mybatis.dom.converter.SqlConverter;
  */
 public interface Include extends MyBatisElement {
 
-  @Attribute("refid")
-  @Convert(SqlConverter.class)
-  public GenericAttributeValue<XmlTag> getRefId();
+    @Attribute("refid")
+    @Convert(SqlConverter.class)
+    public GenericAttributeValue<XmlTag> getRefId();
 
 }

@@ -19,38 +19,38 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SqlParamCompletionContributor extends CompletionContributor {
 
-  @Override
-  public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull final CompletionResultSet result) {
-    if (parameters.getCompletionType() != CompletionType.BASIC) {
-      return;
+    @Override
+    public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull final CompletionResultSet result) {
+        if (parameters.getCompletionType() != CompletionType.BASIC) {
+            return;
+        }
+
+        PsiElement position = parameters.getPosition();
+        PsiFile topLevelFile = InjectedLanguageManager.getInstance(position.getProject()).getTopLevelFile(position);
+        if (DomUtils.isMybatisFile(topLevelFile)) {
+            if (shouldAddElement(position.getContainingFile(), parameters.getOffset())) {
+                process(topLevelFile, result, position);
+            }
+        }
     }
 
-    PsiElement position = parameters.getPosition();
-    PsiFile topLevelFile = InjectedLanguageManager.getInstance(position.getProject()).getTopLevelFile(position);
-    if (DomUtils.isMybatisFile(topLevelFile)) {
-      if (shouldAddElement(position.getContainingFile(), parameters.getOffset())) {
-        process(topLevelFile, result, position);
-      }
+    private void process(PsiFile xmlFile, CompletionResultSet result, PsiElement position) {
+        int offset = InjectedLanguageManager.getInstance(position.getProject()).injectedToHost(position, position.getTextOffset());
+        Optional<IdDomElement> idDomElement = MapperUtils.findParentIdDomElement(xmlFile.findElementAt(offset));
+        if (idDomElement.isPresent()) {
+            TestParamContributor.addElementForPsiParameter(position.getProject(), result, idDomElement.get());
+            result.stopHere();
+        }
     }
-  }
 
-  private void process(PsiFile xmlFile, CompletionResultSet result, PsiElement position) {
-      int offset = InjectedLanguageManager.getInstance(position.getProject()).injectedToHost(position, position.getTextOffset());
-      Optional<IdDomElement> idDomElement = MapperUtils.findParentIdDomElement(xmlFile.findElementAt(offset));
-      if (idDomElement.isPresent()) {
-        TestParamContributor.addElementForPsiParameter(position.getProject(), result, idDomElement.get());
-        result.stopHere();
-      }
-  }
-
-  private boolean shouldAddElement(PsiFile file, int offset) {
-    String text = file.getText();
-    for (int i = offset - 1; i > 0; i--) {
-      char c = text.charAt(i);
-      if (c == '{' && (text.charAt(i - 1) == '#' || text.charAt(i - 1) == '$')) {
-        return true;
-      }
+    private boolean shouldAddElement(PsiFile file, int offset) {
+        String text = file.getText();
+        for (int i = offset - 1; i > 0; i--) {
+            char c = text.charAt(i);
+            if (c == '{' && (text.charAt(i - 1) == '#' || text.charAt(i - 1) == '$')) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 }

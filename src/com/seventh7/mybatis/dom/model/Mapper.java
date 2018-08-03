@@ -1,12 +1,6 @@
 package com.seventh7.mybatis.dom.model;
 
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.NameValue;
-import com.intellij.util.xml.Required;
-import com.intellij.util.xml.SubTagList;
-import com.intellij.util.xml.SubTagsList;
-
+import com.intellij.util.xml.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,61 +10,61 @@ import java.util.List;
  */
 public interface Mapper extends MyBatisElement {
 
-  @NotNull
-  @SubTagsList({"insert", "update", "delete", "select"})
-  public List<IdDomElement> getDaoElements();
+    @NotNull
+    @SubTagsList({"insert", "update", "delete", "select"})
+    public List<IdDomElement> getDaoElements();
 
-  @Required
-  @NameValue
-  @NotNull
-  @Attribute("namespace")
-  public GenericAttributeValue<String> getNamespace();
+    @Required
+    @NameValue
+    @NotNull
+    @Attribute("namespace")
+    public GenericAttributeValue<String> getNamespace();
 
-  @NotNull
-  @SubTagList("resultMap")
-  public List<ResultMap> getResultMaps();
+    @NotNull
+    @SubTagList("resultMap")
+    public List<ResultMap> getResultMaps();
 
-  @NotNull
-  @SubTagList("parameterMap")
-  public List<ParameterMap> getParameterMaps();
+    @NotNull
+    @SubTagList("parameterMap")
+    public List<ParameterMap> getParameterMaps();
 
-  @NotNull
-  @SubTagList("sql")
-  public List<Sql> getSqls();
+    @NotNull
+    @SubTagList("sql")
+    public List<Sql> getSqls();
 
-  @NotNull
-  @SubTagList("insert")
-  public List<Insert> getInserts();
+    @NotNull
+    @SubTagList("insert")
+    public List<Insert> getInserts();
 
-  @NotNull
-  @SubTagList("update")
-  public List<Update> getUpdates();
+    @NotNull
+    @SubTagList("update")
+    public List<Update> getUpdates();
 
-  @NotNull
-  @SubTagList("delete")
-  public List<Delete> getDeletes();
+    @NotNull
+    @SubTagList("delete")
+    public List<Delete> getDeletes();
 
-  @NotNull
-  @SubTagList("select")
-  public List<Select> getSelects();
+    @NotNull
+    @SubTagList("select")
+    public List<Select> getSelects();
 
-  @NotNull
-  @SubTagList("cache")
-  public List<Cache> getCaches();
+    @NotNull
+    @SubTagList("cache")
+    public List<Cache> getCaches();
 
-  @NotNull
-  @SubTagList("cache-ref")
-  public List<CacheRef> getCacheRefs();
+    @NotNull
+    @SubTagList("cache-ref")
+    public List<CacheRef> getCacheRefs();
 
-  @SubTagList("select")
-  public Select addSelect();
+    @SubTagList("select")
+    public Select addSelect();
 
-  @SubTagList("update")
-  public Update addUpdate();
+    @SubTagList("update")
+    public Update addUpdate();
 
-  @SubTagList("insert")
-  public Insert addInsert();
+    @SubTagList("insert")
+    public Insert addInsert();
 
-  @SubTagList("delete")
-  public Delete addDelete();
+    @SubTagList("delete")
+    public Delete addDelete();
 }

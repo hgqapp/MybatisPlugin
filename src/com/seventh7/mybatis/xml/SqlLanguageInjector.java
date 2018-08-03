@@ -1,10 +1,5 @@
 package com.seventh7.mybatis.xml;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.util.TextRange;
@@ -20,6 +15,10 @@ import com.seventh7.mybatis.dom.model.Delete;
 import com.seventh7.mybatis.dom.model.Insert;
 import com.seventh7.mybatis.dom.model.Select;
 import com.seventh7.mybatis.dom.model.Update;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author yanglin
@@ -40,7 +39,7 @@ public class SqlLanguageInjector implements MultiHostInjector {
             return;
         }
         registrar.startInjecting(SqlLanguage.INSTANCE)
-                 .addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
+                .addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
     }
 
     private static boolean isSupportedType(DomElement element) {

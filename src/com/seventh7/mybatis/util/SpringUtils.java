@@ -18,32 +18,33 @@ import java.util.Collection;
  */
 public final class SpringUtils {
 
-  private SpringUtils() {
-    throw new UnsupportedOperationException();
-  }
+    private SpringUtils() {
+        throw new UnsupportedOperationException();
+    }
 
-  public static void processSpringConfig(@NotNull Project project,
-                                         @NotNull CommonSpringModel model,
-                                         @NotNull String clazzName,
-                                         @NotNull String prop,
-                                         @NotNull Processor<SpringPropertyDefinition> processor) {
-    Optional<PsiClass> clazzOpt = JavaUtils.findClazz(project, clazzName);
-    if (!clazzOpt.isPresent()) {
-      return;
-    }
-    Collection<SpringBeanPointer> domBeans = SpringModelVisitorUtils.getAllDomBeans(model);;
-    PsiClass clazz = clazzOpt.get();
-    for (SpringBeanPointer pointer : domBeans) {
-      PsiClass beanClass = pointer.getBeanClass();
-      if (beanClass == null || !beanClass.equals(clazz)) {
-        continue;
-      }
-      SpringPropertyDefinition def = SpringPropertyUtils.findPropertyByName(pointer.getSpringBean(), prop);
-      if (def != null) {
-        if (!processor.process(def)) {
-          break;
+    public static void processSpringConfig(@NotNull Project project,
+                                           @NotNull CommonSpringModel model,
+                                           @NotNull String clazzName,
+                                           @NotNull String prop,
+                                           @NotNull Processor<SpringPropertyDefinition> processor) {
+        Optional<PsiClass> clazzOpt = JavaUtils.findClazz(project, clazzName);
+        if (!clazzOpt.isPresent()) {
+            return;
         }
-      }
+        Collection<SpringBeanPointer> domBeans = SpringModelVisitorUtils.getAllDomBeans(model);
+        ;
+        PsiClass clazz = clazzOpt.get();
+        for (SpringBeanPointer pointer : domBeans) {
+            PsiClass beanClass = pointer.getBeanClass();
+            if (beanClass == null || !beanClass.equals(clazz)) {
+                continue;
+            }
+            SpringPropertyDefinition def = SpringPropertyUtils.findPropertyByName(pointer.getSpringBean(), prop);
+            if (def != null) {
+                if (!processor.process(def)) {
+                    break;
+                }
+            }
+        }
     }
-  }
 }

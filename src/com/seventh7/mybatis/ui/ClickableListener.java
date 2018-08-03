@@ -5,8 +5,8 @@ package com.seventh7.mybatis.ui;
  */
 public abstract class ClickableListener extends ExecutableListener {
 
-  public void clicked() {
+    public void clicked() {
 
-  }
+    }
 
 }

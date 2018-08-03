@@ -19,26 +19,26 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ColumnIntentionChooser implements IntentionChooser {
 
-  public static final IntentionChooser INSTANCE = new ColumnIntentionChooser();
+    public static final IntentionChooser INSTANCE = new ColumnIntentionChooser();
 
-  @Override
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
-    boolean sqlFileCase = file instanceof SqlFile && DomUtils.isMybatisFile(InjectedLanguageManager.getInstance(project).getTopLevelFile(file));
-    if (sqlFileCase) {
-      return true;
-    }
+    @Override
+    public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+        boolean sqlFileCase = file instanceof SqlFile && DomUtils.isMybatisFile(InjectedLanguageManager.getInstance(project).getTopLevelFile(file));
+        if (sqlFileCase) {
+            return true;
+        }
 
-    PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
-    XmlText text = PsiTreeUtil.getParentOfType(element, XmlText.class);
-    if (text == null) {
-      return false;
-    }
+        PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
+        XmlText text = PsiTreeUtil.getParentOfType(element, XmlText.class);
+        if (text == null) {
+            return false;
+        }
 
-    DomElement domElement = DomUtil.getDomElement(element);
-    if (domElement == null) {
-      return false;
+        DomElement domElement = DomUtil.getDomElement(element);
+        if (domElement == null) {
+            return false;
+        }
+        return DomUtil.getParentOfType(domElement, Sql.class, true) != null;
     }
-    return DomUtil.getParentOfType(domElement, Sql.class, true) != null;
-  }
 
 }

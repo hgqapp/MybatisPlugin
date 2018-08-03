@@ -5,8 +5,8 @@ package com.seventh7.mybatis.ui;
  */
 public abstract class ExecutableListener {
 
-  public boolean isWriteAction() {
-    return false;
-  }
+    public boolean isWriteAction() {
+        return false;
+    }
 
 }

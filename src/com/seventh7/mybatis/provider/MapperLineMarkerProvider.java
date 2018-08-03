@@ -2,7 +2,6 @@ package com.seventh7.mybatis.provider;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
@@ -16,7 +15,6 @@ import com.seventh7.mybatis.dom.model.IdDomElement;
 import com.seventh7.mybatis.service.JavaService;
 import com.seventh7.mybatis.util.Icons;
 import com.seventh7.mybatis.util.JavaUtils;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -26,28 +24,28 @@ import java.util.Collection;
  */
 public class MapperLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
-  private static final Function<DomElement, XmlTag> FUN = DomElement::getXmlTag;
+    private static final Function<DomElement, XmlTag> FUN = DomElement::getXmlTag;
 
-  @Override
-  protected void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super RelatedItemLineMarkerInfo> result) {
-    if (element instanceof PsiNameIdentifierOwner && JavaUtils.isElementWithinInterface(element)) {
-      CommonProcessors.CollectProcessor<IdDomElement> processor = new CommonProcessors.CollectProcessor<>();
-      JavaService.getInstance(element.getProject()).processMapperInterfaceElements(element, processor);
-      Collection<IdDomElement> results = processor.getResults();
-      if (!results.isEmpty()) {
-        PsiElement nameIdentifier = ((PsiNameIdentifierOwner) element).getNameIdentifier();
-        if (nameIdentifier != null) {
-          result.add(setupBuilder(results).createLineMarkerInfo(nameIdentifier));
+    @Override
+    protected void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super RelatedItemLineMarkerInfo> result) {
+        if (element instanceof PsiNameIdentifierOwner && JavaUtils.isElementWithinInterface(element)) {
+            CommonProcessors.CollectProcessor<IdDomElement> processor = new CommonProcessors.CollectProcessor<>();
+            JavaService.getInstance(element.getProject()).processMapperInterfaceElements(element, processor);
+            Collection<IdDomElement> results = processor.getResults();
+            if (!results.isEmpty()) {
+                PsiElement nameIdentifier = ((PsiNameIdentifierOwner) element).getNameIdentifier();
+                if (nameIdentifier != null) {
+                    result.add(setupBuilder(results).createLineMarkerInfo(nameIdentifier));
+                }
+            }
         }
-      }
     }
-  }
 
-  private NavigationGutterIconBuilder<PsiElement> setupBuilder(Collection<IdDomElement> results) {
-    return NavigationGutterIconBuilder.create(Icons.MAPPER_LINE_MARKER_ICON)
-                                      .setAlignment(GutterIconRenderer.Alignment.CENTER)
-                                      .setTargets(Collections2.transform(results, FUN))
-                                      .setTooltipTitle("Navigation to target in mapper xml");
-  }
+    private NavigationGutterIconBuilder<PsiElement> setupBuilder(Collection<IdDomElement> results) {
+        return NavigationGutterIconBuilder.create(Icons.MAPPER_LINE_MARKER_ICON)
+                .setAlignment(GutterIconRenderer.Alignment.CENTER)
+                .setTargets(Collections2.transform(results, FUN))
+                .setTooltipTitle("Navigation to target in mapper xml");
+    }
 
 }

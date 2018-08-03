@@ -9,7 +9,7 @@ import com.intellij.util.xml.GenericAttributeValue;
  */
 public interface MyBatisElement extends DomElement {
 
-  @Attribute("databaseId")
-  public GenericAttributeValue<String> getDatabaseId();
+    @Attribute("databaseId")
+    public GenericAttributeValue<String> getDatabaseId();
 
 }

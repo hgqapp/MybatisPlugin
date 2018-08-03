@@ -5,7 +5,6 @@ import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.xml.DomFileDescription;
 import com.seventh7.mybatis.dom.model.Mapper;
 import com.seventh7.mybatis.util.DomUtils;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public class MapperDescription extends DomFileDescription<Mapper> {
 
-  public MapperDescription() {
-    super(Mapper.class, "mapper");
-  }
+    public MapperDescription() {
+        super(Mapper.class, "mapper");
+    }
 
-  @Override
-  public boolean isMyFile(@NotNull XmlFile file, @Nullable Module module) {
-    return DomUtils.isMybatisFile(file);
-  }
+    @Override
+    public boolean isMyFile(@NotNull XmlFile file, @Nullable Module module) {
+        return DomUtils.isMybatisFile(file);
+    }
 
 }

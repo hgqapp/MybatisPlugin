@@ -1,7 +1,6 @@
 package com.seventh7.mybatis.dom.model;
 
 import com.intellij.util.xml.SubTagList;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -11,8 +10,8 @@ import java.util.List;
  */
 public interface Beans extends MyBatisElement {
 
-  @NotNull
-  @SubTagList("bean")
-  public List<Bean> getBeans();
+    @NotNull
+    @SubTagList("bean")
+    public List<Bean> getBeans();
 
 }

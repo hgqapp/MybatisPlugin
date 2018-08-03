@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface Discriminator extends JavaTypeGroup, JdbcGroup {
 
-  @Required
-  @SubTagList("case")
-  public List<Case> getCases();
+    @Required
+    @SubTagList("case")
+    public List<Case> getCases();
 
 }

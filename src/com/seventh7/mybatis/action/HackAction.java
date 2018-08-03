@@ -9,8 +9,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 public class HackAction extends AnAction {
 
 
-  public void actionPerformed(AnActionEvent e) {
-    // NON
-  }
+    public void actionPerformed(AnActionEvent e) {
+        // NON
+    }
 
 }

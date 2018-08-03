@@ -5,7 +5,6 @@ import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
 import com.seventh7.mybatis.dom.converter.PropertyConverter;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface PropertyGroup extends JdbcGroup, JavaTypeGroup {
 
-  @Attribute("property")
-  @Convert(PropertyConverter.class)
-  GenericAttributeValue<XmlAttributeValue> getProperty();
+    @Attribute("property")
+    @Convert(PropertyConverter.class)
+    GenericAttributeValue<XmlAttributeValue> getProperty();
 
-  @NotNull
-  @Attribute("column")
-  public GenericAttributeValue<String> getColumn();
+    @NotNull
+    @Attribute("column")
+    public GenericAttributeValue<String> getColumn();
 
 }

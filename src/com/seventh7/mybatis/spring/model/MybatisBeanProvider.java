@@ -17,32 +17,32 @@ import java.util.Iterator;
  */
 public class MybatisBeanProvider extends SpringImplicitBeansProviderBase {
 
-  @Override
-  protected Collection<CommonSpringBean> getImplicitBeans(@NotNull Module module) {
-    Collection<Mapper> mappers = MapperUtils.findMappers(module.getProject());
-    HashSet<CommonSpringBean> beans = ContainerUtilRt.newHashSet();
-    Iterator var4 = mappers.iterator();
-    while(var4.hasNext()) {
-      Mapper mapper = (Mapper) var4.next();
-      String className = mapper.getNamespace().getStringValue();
-      if (className != null) {
-        this.addImplicitLibraryBean(beans, module, className, beanNameOfMapper(className));
-      }
+    @Override
+    protected Collection<CommonSpringBean> getImplicitBeans(@NotNull Module module) {
+        Collection<Mapper> mappers = MapperUtils.findMappers(module.getProject());
+        HashSet<CommonSpringBean> beans = ContainerUtilRt.newHashSet();
+        Iterator var4 = mappers.iterator();
+        while (var4.hasNext()) {
+            Mapper mapper = (Mapper) var4.next();
+            String className = mapper.getNamespace().getStringValue();
+            if (className != null) {
+                this.addImplicitLibraryBean(beans, module, className, beanNameOfMapper(className));
+            }
+        }
+        return beans;
     }
-    return beans;
-  }
 
 
-  private static String beanNameOfMapper(String className) {
-    int index = className.lastIndexOf(".");
-    return index == -1 ? className : className.substring(0, index);
-  }
+    private static String beanNameOfMapper(String className) {
+        int index = className.lastIndexOf(".");
+        return index == -1 ? className : className.substring(0, index);
+    }
 
 
-  @NotNull
-  @Override
-  public String getProviderName() {
-    return "Mybatis Mapper Bean Provider";
-  }
+    @NotNull
+    @Override
+    public String getProviderName() {
+        return "Mybatis Mapper Bean Provider";
+    }
 
 }

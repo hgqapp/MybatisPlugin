@@ -8,7 +8,7 @@ import com.intellij.util.xml.Required;
  */
 public interface SelectKey extends GroupTwo, ResultTypeGroup {
 
-  @Required(value = false)
-  public GenericAttributeValue<String> getId();
+    @Required(value = false)
+    public GenericAttributeValue<String> getId();
 
 }

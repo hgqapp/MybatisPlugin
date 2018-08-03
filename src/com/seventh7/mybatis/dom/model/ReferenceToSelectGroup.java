@@ -5,17 +5,16 @@ import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
 import com.seventh7.mybatis.dom.converter.ReferenceToSelectConverter;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author yanglin
  */
-public interface ReferenceToSelectGroup extends MyBatisElement{
+public interface ReferenceToSelectGroup extends MyBatisElement {
 
-  @NotNull
-  @Attribute("select")
-  @Convert(ReferenceToSelectConverter.class)
-  public GenericAttributeValue<XmlAttributeValue> getExtends();
+    @NotNull
+    @Attribute("select")
+    @Convert(ReferenceToSelectConverter.class)
+    public GenericAttributeValue<XmlAttributeValue> getExtends();
 
 }

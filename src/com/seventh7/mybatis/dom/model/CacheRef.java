@@ -5,7 +5,6 @@ import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
 import com.seventh7.mybatis.dom.converter.CacheRefNamespaceConverter;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CacheRef extends MyBatisElement {
 
-  @NotNull
-  @Attribute("namespace")
-  @Convert(CacheRefNamespaceConverter.class)
-  public GenericAttributeValue<PsiClass> getNamespace();
+    @NotNull
+    @Attribute("namespace")
+    @Convert(CacheRefNamespaceConverter.class)
+    public GenericAttributeValue<PsiClass> getNamespace();
 
 }

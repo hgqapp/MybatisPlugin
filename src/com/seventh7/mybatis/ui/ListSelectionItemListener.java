@@ -7,10 +7,10 @@ import java.util.Collection;
  */
 public abstract class ListSelectionItemListener<T> extends ExecutableListener {
 
-  public void apply(T t) {
-  }
+    public void apply(T t) {
+    }
 
-  public void apply(Collection<T> ts) {
-  }
+    public void apply(Collection<T> ts) {
+    }
 
 }

@@ -9,27 +9,27 @@ import java.util.List;
  */
 public interface GroupFour extends MyBatisElement {
 
-  @SubTagList("constructor")
-  public Constructor getConstructor();
+    @SubTagList("constructor")
+    public Constructor getConstructor();
 
-  @SubTagList("id")
-  public List<Id> getIds();
+    @SubTagList("id")
+    public List<Id> getIds();
 
-  @SubTagList("result")
-  public List<Result> getResults();
+    @SubTagList("result")
+    public List<Result> getResults();
 
-  @SubTagList("association")
-  public List<Association> getAssociations();
+    @SubTagList("association")
+    public List<Association> getAssociations();
 
-  @SubTagList("collection")
-  public List<Collection> getCollections();
+    @SubTagList("collection")
+    public List<Collection> getCollections();
 
-  @SubTagList("discriminator")
-  public Discriminator getDiscriminator();
+    @SubTagList("discriminator")
+    public Discriminator getDiscriminator();
 
-  @SubTagList("id")
-  public Id addId();
+    @SubTagList("id")
+    public Id addId();
 
-  @SubTagList("result")
-  public Result addResult();
+    @SubTagList("result")
+    public Result addResult();
 }
