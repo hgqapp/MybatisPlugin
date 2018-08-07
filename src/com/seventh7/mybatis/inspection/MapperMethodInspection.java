@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.inspection;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -21,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -51,7 +51,7 @@ public class MapperMethodInspection extends MapperInspection {
             return EMPTY_ARRAY;
         }
         List<ProblemDescriptor> res = createProblemDescriptors(method, manager, isOnTheFly);
-        return res.toArray(new ProblemDescriptor[res.size()]);
+        return res.toArray(new ProblemDescriptor[]{});
     }
 
     private boolean isResultHandlerPresent(PsiMethod method) {
@@ -76,13 +76,9 @@ public class MapperMethodInspection extends MapperInspection {
     private List<ProblemDescriptor> createProblemDescriptors(PsiMethod method, InspectionManager manager, boolean isOnTheFly) {
         ArrayList<ProblemDescriptor> res = Lists.newArrayList();
         Optional<ProblemDescriptor> p1 = checkStatementExists(method, manager, isOnTheFly);
-        if (p1.isPresent()) {
-            res.add(p1.get());
-        }
+        p1.ifPresent(res::add);
         Optional<ProblemDescriptor> p2 = checkResultType(method, manager, isOnTheFly);
-        if (p2.isPresent()) {
-            res.add(p2.get());
-        }
+        p2.ifPresent(res::add);
         return res;
     }
 
@@ -106,23 +102,23 @@ public class MapperMethodInspection extends MapperInspection {
                 }
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     private Optional<ProblemDescriptor> checkStatementExists(PsiMethod method, InspectionManager manager, boolean isOnTheFly) {
         PsiClass clazz = method.getContainingClass();
         if (clazz == null) {
-            return Optional.absent();
+            return Optional.empty();
         }
         if (!MapperUtils.findFirstMapper(clazz.getProject(), clazz).isPresent()) {
-            return Optional.absent();
+            return Optional.empty();
         }
         PsiIdentifier ide = method.getNameIdentifier();
         if (!JavaService.getInstance(method.getProject()).findStatement(method).isPresent() && null != ide) {
             return Optional.of(manager.createProblemDescriptor(ide, "Statement with id=\"#ref\" not defined in mapper xml",
                     new StatementNotExistsQuickFix(method), ProblemHighlightType.GENERIC_ERROR, isOnTheFly));
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
 }

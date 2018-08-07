@@ -1,7 +1,5 @@
 package com.seventh7.mybatis.dom.converter;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.util.xml.ConvertContext;
@@ -13,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author yanglin
@@ -24,12 +23,7 @@ public class CacheRefNamespaceConverter extends ConverterAdaptor<PsiClass> {
     public Collection<? extends PsiClass> getVariants(ConvertContext context) {
         final Project project = context.getProject();
         final Collection<Mapper> mappers = MapperUtils.findMappers(project);
-        return Collections2.transform(mappers, new Function<Mapper, PsiClass>() {
-            @Override
-            public PsiClass apply(Mapper input) {
-                return JavaUtils.findClazz(project, input.getNamespace().getStringValue()).orNull();
-            }
-        });
+        return mappers.stream().map(v -> JavaUtils.findClazz(project, v.getNamespace().getStringValue()).orElse(null)).collect(Collectors.toList());
     }
 
     @Nullable
@@ -41,7 +35,7 @@ public class CacheRefNamespaceConverter extends ConverterAdaptor<PsiClass> {
     @Nullable
     @Override
     public PsiClass fromString(@Nullable @NonNls String s, ConvertContext context) {
-        return JavaUtils.findClazz(context.getProject(), s).orNull();
+        return JavaUtils.findClazz(context.getProject(), s).orElse(null);
     }
 
 }

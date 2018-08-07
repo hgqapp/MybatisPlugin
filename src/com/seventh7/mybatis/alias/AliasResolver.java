@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.alias;
 
-import com.google.common.base.Optional;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -9,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -24,7 +24,7 @@ public abstract class AliasResolver {
     @NotNull
     protected Optional<AliasDesc> addAliasDesc(@NotNull Set<AliasDesc> descs, @Nullable PsiClass clazz, @Nullable String alias) {
         if (null == alias || !JavaUtils.isModelClazz(clazz)) {
-            return Optional.absent();
+            return Optional.empty();
         }
         AliasDesc desc = new AliasDesc();
         descs.add(desc);

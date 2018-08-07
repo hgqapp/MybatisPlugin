@@ -1,7 +1,5 @@
 package com.seventh7.mybatis.dom.converter;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.intellij.util.xml.ConvertContext;
 import com.intellij.util.xml.DomElement;
 import com.seventh7.mybatis.dom.model.IdDomElement;
@@ -12,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author yanglin
@@ -35,12 +34,7 @@ public class ResultMapConverter extends IdBasedTagConverter {
     }
 
     private Collection<? extends IdDomElement> doFilterResultMapItself(Mapper mapper, final ResultMap resultMap) {
-        return Collections2.filter(mapper.getResultMaps(), new Predicate<ResultMap>() {
-            @Override
-            public boolean apply(ResultMap input) {
-                return !MapperUtils.getId(input).equals(MapperUtils.getId(resultMap));
-            }
-        });
+        return mapper.getResultMaps().stream().filter(v -> !MapperUtils.getId(v).equals(MapperUtils.getId(resultMap))).collect(Collectors.toList());
     }
 
 }

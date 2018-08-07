@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.locator;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
@@ -12,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Optional;
 
 /**
  * @author yanglin

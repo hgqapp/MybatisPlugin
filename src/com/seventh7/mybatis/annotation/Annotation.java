@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.annotation;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -10,6 +9,7 @@ import com.seventh7.mybatis.util.JavaUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
+import java.util.Optional;
 
 /**
  * Simple implementation
@@ -117,7 +117,7 @@ public class Annotation implements Cloneable {
             String value = Iterables.getOnlyElement(attributePairs.keySet());
             return Optional.of("(" + attributePairs.get(value).toString() + ")");
         } catch (Exception e) {
-            return Optional.absent();
+            return Optional.empty();
         }
     }
 

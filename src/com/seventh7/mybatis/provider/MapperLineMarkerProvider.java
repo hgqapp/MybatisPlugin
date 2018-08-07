@@ -1,14 +1,11 @@
 package com.seventh7.mybatis.provider;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.xml.DomElement;
 import com.seventh7.mybatis.dom.model.IdDomElement;
@@ -18,13 +15,12 @@ import com.seventh7.mybatis.util.JavaUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author yanglin
  */
 public class MapperLineMarkerProvider extends RelatedItemLineMarkerProvider {
-
-    private static final Function<DomElement, XmlTag> FUN = DomElement::getXmlTag;
 
     @Override
     protected void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super RelatedItemLineMarkerInfo> result) {
@@ -42,9 +38,10 @@ public class MapperLineMarkerProvider extends RelatedItemLineMarkerProvider {
     }
 
     private NavigationGutterIconBuilder<PsiElement> setupBuilder(Collection<IdDomElement> results) {
+
         return NavigationGutterIconBuilder.create(Icons.MAPPER_LINE_MARKER_ICON)
                 .setAlignment(GutterIconRenderer.Alignment.CENTER)
-                .setTargets(Collections2.transform(results, FUN))
+                .setTargets(results.stream().map(DomElement::getXmlTag).collect(Collectors.toList()))
                 .setTooltipTitle("Navigation to target in mapper xml");
     }
 

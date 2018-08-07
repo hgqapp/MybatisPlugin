@@ -1,7 +1,5 @@
 package com.seventh7.mybatis.generate;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.intellij.codeInsight.hint.HintManager;
@@ -26,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author yanglin
@@ -97,17 +96,13 @@ public final class MapperXmlGenerator {
     }
 
     private String[] getPathTextForShown(Project project, List<String> paths, final Map<String, PsiDirectory> pathMap) {
-        Collections.sort(paths);
         final String projectBasePath = project.getBasePath();
-        Collection<String> result = Collections2.transform(paths, new Function<String, String>() {
-            @Override
-            public String apply(String input) {
-                String relativePath = FileUtil.getRelativePath(projectBasePath, input, File.separatorChar);
-                Module module = ModuleUtil.findModuleForPsiElement(pathMap.get(input));
-                return null == module ? relativePath : ("[" + module.getName() + "] " + relativePath);
-            }
-        });
-        return result.toArray(new String[result.size()]);
+        List<String> result = paths.stream().sorted().map(v -> {
+            String relativePath = FileUtil.getRelativePath(projectBasePath, v, File.separatorChar);
+            Module module = ModuleUtil.findModuleForPsiElement(pathMap.get(v));
+            return null == module ? relativePath : ("[" + module.getName() + "] " + relativePath);
+        }).collect(Collectors.toList());
+        return result.toArray(new String[]{});
     }
 
     private Map<String, PsiDirectory> getPathMap(Collection<PsiDirectory> directories) {
@@ -159,6 +154,7 @@ public final class MapperXmlGenerator {
                 new ListSelectionListener() {
                     @Override
                     public void selected(int index) {
+                        // Do nothing
                     }
 
                     @Override
@@ -166,18 +162,13 @@ public final class MapperXmlGenerator {
                         if (indexes == null) {
                             return;
                         }
-                        for (int i = 0; i < indexes.length; i++) {
-                            StatementGenerator.applyGenerate(methods.get(indexes[i]), false);
+                        for (int index : indexes) {
+                            StatementGenerator.applyGenerate(methods.get(index), false);
                         }
                     }
                 },
                 methods,
-                new Function<PsiMethod, String>() {
-                    @Override
-                    public String apply(PsiMethod psiMethod) {
-                        return psiMethod.getName();
-                    }
-                });
+                PsiMethod::getName);
 
     }
 

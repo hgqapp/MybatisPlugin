@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.alias;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
@@ -13,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -54,11 +54,12 @@ public class AliasFacade {
         for (AliasResolver resolver : resolvers) {
             for (AliasDesc desc : resolver.getClassAliasDescriptions(element)) {
                 if (desc.getAlias().equalsIgnoreCase(clazzName)) {
+
                     return Optional.of(desc.getClazz());
                 }
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @NotNull
@@ -72,7 +73,7 @@ public class AliasFacade {
 
     public Optional<AliasDesc> findAliasDesc(@Nullable PsiClass clazz) {
         if (null == clazz) {
-            return Optional.absent();
+            return Optional.empty();
         }
         for (AliasResolver resolver : resolvers) {
             for (AliasDesc desc : resolver.getClassAliasDescriptions(clazz)) {
@@ -81,7 +82,7 @@ public class AliasFacade {
                 }
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public void registerResolver(@NotNull AliasResolver resolver) {

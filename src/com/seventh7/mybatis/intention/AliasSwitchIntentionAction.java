@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.intention;
 
-import com.google.common.base.Optional;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -18,6 +17,8 @@ import com.seventh7.mybatis.alias.AliasDesc;
 import com.seventh7.mybatis.alias.AliasFacade;
 import com.seventh7.mybatis.intention.chooser.AliasSwitchChooser;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * @author yanglin

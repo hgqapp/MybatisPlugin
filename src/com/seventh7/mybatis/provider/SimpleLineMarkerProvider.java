@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.provider;
 
-import com.google.common.base.Optional;
 import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
@@ -12,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -32,33 +31,23 @@ public abstract class SimpleLineMarkerProvider<F extends PsiElement, T> extends 
         if (!isTheElement(element)) return null;
 
         Optional<T> processResult = apply((F) element);
-        return processResult.isPresent() ? new LineMarkerInfo<F>(
+        return processResult.map(t -> new LineMarkerInfo<>(
                 (F) element,
                 element.getTextRange(),
                 getIcon(),
                 Pass.UPDATE_ALL,
-                getTooltipProvider(processResult.get()),
-                getNavigationHandler(processResult.get()),
+                getTooltipProvider(t),
+                getNavigationHandler(t),
                 GutterIconRenderer.Alignment.CENTER
-        ) : null;
+        )).orElse(null);
     }
 
     private Function<F, String> getTooltipProvider(final T target) {
-        return new Function<F, String>() {
-            @Override
-            public String fun(F from) {
-                return getTooltip(from, target);
-            }
-        };
+        return from -> getTooltip(from, target);
     }
 
     private GutterIconNavigationHandler<F> getNavigationHandler(final T target) {
-        return new GutterIconNavigationHandler<F>() {
-            @Override
-            public void navigate(MouseEvent e, F from) {
-                getNavigatable(from, target).navigate(true);
-            }
-        };
+        return (e, from) -> getNavigatable(from, target).navigate(true);
     }
 
     public abstract boolean isTheElement(@NotNull PsiElement element);

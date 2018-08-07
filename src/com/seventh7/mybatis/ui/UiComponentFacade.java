@@ -1,7 +1,5 @@
 package com.seventh7.mybatis.ui;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.application.Application;
@@ -20,11 +18,10 @@ import com.intellij.ui.components.JBList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author yanglin
@@ -65,18 +62,10 @@ public final class UiComponentFacade {
         builder.setSouthComponent(checkBox);
         final JBPopup popup = builder.createPopup();
         if (null != clickableListener) {
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    clickableListener.clicked();
-                }
-            };
-            checkBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    popup.dispose();
-                    setActionForExecutableListener(runnable, clickableListener);
-                }
+            final Runnable runnable = clickableListener::clicked;
+            checkBox.addActionListener(e -> {
+                popup.dispose();
+                setActionForExecutableListener(runnable, clickableListener);
             });
         }
         setPositionForShown(popup);
@@ -96,10 +85,7 @@ public final class UiComponentFacade {
                                      @Nullable final ListSelectionListener listener,
                                      @NotNull Collection<T> objs,
                                      @NotNull Function<T, String> fun) {
-        Collection<String> info = Collections2.transform(objs, fun);
-
-
-        PopupChooserBuilder builder = createListPopupBuilder(title, listener, info.toArray(new Object[0]));
+        PopupChooserBuilder builder = createListPopupBuilder(title, listener, objs.stream().map(fun).toArray(Object[]::new));
         JBPopup popup = builder.createPopup();
         setPositionForShown(popup);
         return popup;
@@ -130,19 +116,11 @@ public final class UiComponentFacade {
         PopupChooserBuilder builder = new PopupChooserBuilder(list);
         builder.setTitle(title);
         if (null != listener) {
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    listener.selected(list.getSelectedIndex());
-                    listener.selected(list.getSelectedIndices());
-                }
+            final Runnable runnable = () -> {
+                listener.selected(list.getSelectedIndex());
+                listener.selected(list.getSelectedIndices());
             };
-            builder.setItemChoosenCallback(new Runnable() {
-                @Override
-                public void run() {
-                    setActionForExecutableListener(runnable, listener);
-                }
-            });
+            builder.setItemChoosenCallback(() -> setActionForExecutableListener(runnable, listener));
         }
         return builder;
     }

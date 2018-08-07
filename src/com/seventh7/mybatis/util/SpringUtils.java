@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.util;
 
-import com.google.common.base.Optional;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.spring.CommonSpringModel;
@@ -12,6 +11,7 @@ import com.intellij.util.Processor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -32,7 +32,7 @@ public final class SpringUtils {
             return;
         }
         Collection<SpringBeanPointer> domBeans = SpringModelVisitorUtils.getAllDomBeans(model);
-        ;
+
         PsiClass clazz = clazzOpt.get();
         for (SpringBeanPointer pointer : domBeans) {
             PsiClass beanClass = pointer.getBeanClass();
@@ -40,10 +40,8 @@ public final class SpringUtils {
                 continue;
             }
             SpringPropertyDefinition def = SpringPropertyUtils.findPropertyByName(pointer.getSpringBean(), prop);
-            if (def != null) {
-                if (!processor.process(def)) {
-                    break;
-                }
+            if (def != null && !processor.process(def)) {
+                break;
             }
         }
     }

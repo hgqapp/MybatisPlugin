@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.contributor;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.intellij.codeInsight.completion.*;
@@ -20,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -40,7 +40,7 @@ public class TestParamContributor extends CompletionContributor {
                                           ProcessingContext context,
                                           @NotNull CompletionResultSet result) {
                 PsiElement position = parameters.getPosition();
-                addElementForPsiParameter(position.getProject(), result, MapperUtils.findParentIdDomElement(position).orNull());
+                addElementForPsiParameter(position.getProject(), result, MapperUtils.findParentIdDomElement(position).orElse(null));
             }
         };
         extend(CompletionType.BASIC,
@@ -88,7 +88,7 @@ public class TestParamContributor extends CompletionContributor {
         public abstract Collection<?> getParameterLookupElements(@NotNull PsiParameter parameter);
     }
 
-    private final static class AnnotationParameterLookupHandler extends SimpleParameterLookupHandler {
+    private static final class AnnotationParameterLookupHandler extends SimpleParameterLookupHandler {
 
         @NotNull
         @Override
@@ -112,7 +112,7 @@ public class TestParamContributor extends CompletionContributor {
         public abstract Collection<?> doHandle(@NotNull PsiParameter parameter);
     }
 
-    private final static class PrimitiveParameterLookupHandler extends NoParamAnnotationPresentParameterLookupHandler {
+    private static final class PrimitiveParameterLookupHandler extends NoParamAnnotationPresentParameterLookupHandler {
 
         @NotNull
         @Override
@@ -123,7 +123,7 @@ public class TestParamContributor extends CompletionContributor {
         }
     }
 
-    private final static class ModelParameterLookupHandler extends NoParamAnnotationPresentParameterLookupHandler {
+    private static final class ModelParameterLookupHandler extends NoParamAnnotationPresentParameterLookupHandler {
 
         @NotNull
         @Override

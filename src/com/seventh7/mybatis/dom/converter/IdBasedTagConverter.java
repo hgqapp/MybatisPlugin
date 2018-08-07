@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.dom.converter;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.project.Project;
@@ -25,6 +24,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -44,7 +44,7 @@ public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeV
     @Nullable
     @Override
     public XmlAttributeValue fromString(@Nullable @NonNls String value, ConvertContext context) {
-        return matchIdDomElement(selectStrategy(context).getValue(), value, context).orNull();
+        return matchIdDomElement(selectStrategy(context).getValue(), value, context).orElse(null);
     }
 
     @NotNull
@@ -56,7 +56,7 @@ public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeV
                 return Optional.of(idDomElement.getId().getXmlAttributeValue());
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @Nullable
@@ -157,7 +157,7 @@ public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeV
                 refs.remove(refs.size() - 1);
                 refs.add(vr);
             }
-            return refs.toArray(new PsiReference[refs.size()]);
+            return refs.toArray(new PsiReference[]{});
         }
 
         private TextRange getTextRange(PsiElement element) {
@@ -188,7 +188,7 @@ public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeV
         @Override
         public Object[] getVariants() {
             Set<String> res = getElement().getText().contains(MybatisConstants.DOT_SEPARATOR) ? setupContextIdSignature() : setupGlobalIdSignature();
-            return res.toArray(new String[res.size()]);
+            return res.toArray(new String[]{});
         }
 
         private Set<String> setupContextIdSignature() {
@@ -205,7 +205,7 @@ public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeV
         private Set<String> setupGlobalIdSignature() {
             Mapper contextMapper = MapperUtils.getMapper(context.getInvocationElement());
             Collection<? extends IdDomElement> idDomElements = selectStrategy(context).getValue();
-            Set<String> res = new HashSet<String>(idDomElements.size());
+            Set<String> res = new HashSet<>(idDomElements.size());
             for (IdDomElement ele : idDomElements) {
                 res.add(MapperUtils.getIdSignature(ele, contextMapper));
             }

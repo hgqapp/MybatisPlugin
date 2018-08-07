@@ -1,7 +1,5 @@
 package com.seventh7.mybatis.generate;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -9,7 +7,6 @@ import com.google.common.collect.Sets;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.hint.HintUtil;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiPrimitiveType;
@@ -34,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.List;
 import java.util.Set;
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -50,20 +48,9 @@ public abstract class StatementGenerator {
 
     public static final Set<StatementGenerator> ALL = ImmutableSet.of(UPDATE_GENERATOR, SELECT_GENERATOR, DELETE_GENERATOR, INSERT_GENERATOR);
 
-    private static final Function<Mapper, String> FUN = new Function<Mapper, String>() {
-        @Override
-        public String apply(Mapper mapper) {
-            VirtualFile vf = mapper.getXmlTag().getContainingFile().getVirtualFile();
-            if (null == vf) {
-                return "";
-            }
-            return vf.getCanonicalPath();
-        }
-    };
-
     public static Optional<PsiClass> getSelectResultType(@Nullable PsiMethod method) {
         if (null == method) {
-            return Optional.absent();
+            return Optional.empty();
         }
         PsiType returnType = method.getReturnType();
         if (returnType instanceof PsiPrimitiveType && returnType != PsiType.VOID) {
@@ -77,9 +64,9 @@ public abstract class StatementGenerator {
                     type = (PsiClassReferenceType) parameters[0];
                 }
             }
-            return Optional.fromNullable(type.resolve());
+            return Optional.ofNullable(type.resolve());
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static void applyGenerate(@Nullable final PsiMethod method, final boolean scroll) {

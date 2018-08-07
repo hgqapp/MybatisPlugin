@@ -1,12 +1,13 @@
 package com.seventh7.mybatis.generate;
 
-import com.google.common.base.Optional;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
 import com.seventh7.mybatis.dom.model.GroupTwo;
 import com.seventh7.mybatis.dom.model.Mapper;
 import com.seventh7.mybatis.dom.model.Select;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * @author yanglin
@@ -27,9 +28,7 @@ public class SelectGenerator extends StatementGenerator {
 
     private void setupResultType(PsiMethod method, Select select) {
         Optional<PsiClass> clazz = StatementGenerator.getSelectResultType(method);
-        if (clazz.isPresent()) {
-            select.getResultType().setValue(clazz.get());
-        }
+        clazz.ifPresent(psiClass -> select.getResultType().setValue(psiClass));
     }
 
     @NotNull

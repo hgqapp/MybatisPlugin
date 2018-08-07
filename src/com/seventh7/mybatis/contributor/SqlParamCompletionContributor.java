@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.contributor;
 
-import com.google.common.base.Optional;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
@@ -12,6 +11,8 @@ import com.seventh7.mybatis.dom.model.IdDomElement;
 import com.seventh7.mybatis.util.DomUtils;
 import com.seventh7.mybatis.util.MapperUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 
 /**
